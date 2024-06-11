@@ -1,0 +1,93 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineShop_ASP.NET.Services.Admin
+@inject IAdminService AdminService;
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Tech Market</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/OnlineShop_ASP.NET.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/MainPage.css" />
+    
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <img width="70" height="60" src="https://i.imgur.com/0xALyfy.png">
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        @{
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a asp-area="Admin" class="nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="AllProducts" asp-route-id="">All Products</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="Admin" class="nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="AddProducts">Add Product</a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a asp-area="Admin" class="nav-link text-dark" asp-area="Admin" asp-controller="Orders" asp-action="Get">Manage Orders</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Product" asp-controller="Product" asp-action="AllProducts" asp-route-id="">All Products</a>
+                                </li>
+                                @if (this.User.Identity.IsAuthenticated)
+                                {
+                                  
+                                        string temp = this.User.Identity.Name;
+                                        IdentityUser user = AdminService.GetUserByName(temp);
+                                    
+                                    
+
+                                    <li class="nav-item">
+                                        <a asp-area="Orders" asp-controller="Orders" asp-action="Get" asp-route-id="@user.Id" class="nav-link text-dark" >View your orders</a>
+                                    </li>
+                                    
+                                }
+                            }
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

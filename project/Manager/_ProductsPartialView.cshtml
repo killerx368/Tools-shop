@@ -1,0 +1,44 @@
+﻿@using OnlineShop_ASP.NET.Models.Products;
+@model ProductInputViewModel
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label asp-for="ProductName">Продукт</label>
+        <input asp-for="ProductName" class="form-control" placeholder="Пробивни, винтовери, шлайфове ..." />
+        <span asp-validation-for="ProductName" class="small text-danger"></span>
+    </div>
+
+    <div style="margin-top: 10px">
+        <label asp-for="Image">Снимка на продукта</label>
+        <input asp-for="Image" style="margin: 10px" type="file" id="files" />
+        <span asp-validation-for="Image" class="small text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="CategoryName">Категорията</label>
+        <input asp-for="CategoryName" class="form-control" placeholder="Пробивни, винтовери, шлайфове ..." />
+        <span asp-validation-for="CategoryName" class="small text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="BrandName">Марка</label>
+        <input asp-for="BrandName" class="form-control" placeholder="Bosch, Samsung, Beko ..." />
+        <span asp-validation-for="BrandName" class="small text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="ModelName">Модел</label>
+        <input asp-for="ModelName" class="form-control" placeholder="Slim, A24 , G15 ..." />
+        <span asp-validation-for="ModelName" class="small text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Price">Цена за бройка</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="small text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Quantity">Наличен артикулен брой</label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="small text-danger"></span>
+    </div>
+    <button style="margin-top: 20px;">Save</button>
+
+</form>

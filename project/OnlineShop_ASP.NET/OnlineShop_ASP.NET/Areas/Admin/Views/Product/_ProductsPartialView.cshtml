@@ -1,0 +1,54 @@
+﻿@using OnlineShop_ASP.NET.Models.Products;
+@model ProductInputViewModel
+<link href="css/MainPage.css" rel="stylesheet">
+<head>
+    <link rel="stylesheet" href="~/css/Back.css" />
+</head>
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label asp-for="ProductName">Product name:</label>
+        <input asp-for="ProductName" class="form-control" placeholder="Screwdriver,hammer, grinders ..." />
+        <span asp-validation-for="ProductName" class="small text-danger"></span>
+    </div>
+
+    <div style="margin-top: 10px">
+        <label asp-for="ImageURL">Product image URL:</label>
+        <input asp-for="ImageURL" style=" margin: 10px"/>
+        <span asp-validation-for="ImageURL" class="small text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="CategoryName">Category:</label>
+        <input asp-for="CategoryName" class="form-control" placeholder="Пробивни, винтовери, шлайфове ..." />
+        <span asp-validation-for="CategoryName" class="small text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="BrandName">Brand:</label>
+        <input asp-for="BrandName" class="form-control" placeholder="Bosch, Samsung, Beko ..." />
+        <span asp-validation-for="BrandName" class="small text-danger"></span>
+    </div>  
+    <div>
+        <label asp-for="ModelName">Model:</label>
+        <input asp-for="ModelName" class="form-control" placeholder="Slim, A24 , G15 ..." />
+        <span asp-validation-for="ModelName" class="small text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Price">Price for one unit:</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="small text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Quantity">Available quantity:</label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="small text-danger"></span>
+    </div>
+  
+    <div>
+        <label asp-for="Description">Product description:</label>
+        <input asp-for="Description" class="form-control" style="height: 150px;" placeholder="                                 " />
+        <span asp-validation-for="Description" class="small text-danger"></span>
+    </div>
+
+    <button style="margin-top: 20px;">Save</button>
+
+</form>

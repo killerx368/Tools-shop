@@ -1,0 +1,136 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineShopCourseWork.Models;
+@using OnlineShop_ASP.NET.Models.Order;
+@using OnlineShop_ASP.NET.Services.Admin
+@using OnlineShop_ASP.NET.Services.Brands;
+@using OnlineShop_ASP.NET.Services.Categories
+@using OnlineShop_ASP.NET.Services.Products;
+@using OnlineShop_ASP.NET.Services.Order;
+@inject IProductService ProductService;
+@inject IBrandService BrandService;
+@inject IOrderService OrderService;
+@inject ICategoryService CategoryService;
+@inject IAdminService AdminService;
+@model List<Orders>
+<link rel="stylesheet" href="~/css/Navbar.css" />
+<link rel="stylesheet" href="~/css/Back.css" />
+@{
+	ViewData["Title"] = "All Orders";
+
+}
+
+<h1>All Orders</h1>
+
+<table class="table table-striped">
+	<thead class="thead-dark">
+		<tr>
+			<th scope="col">Order Name</th>
+			<th scope="col">Username</th>
+			<th scope="col">Buyer Name</th>
+			<th scope="col">Buyer Phone Number</th>
+			<th scope="col">Buyer Address</th>
+
+			<th scope="col">Products and thier quantitys</th>
+			<th scope="col">Date</th>
+
+			<th scope="col">TotalPrice</th>
+			<th scope="col">Is it Ordered</th>
+			<th scope="col">Approved by Admin</th>
+			<th scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@foreach (var order in Model)
+		{
+			
+
+			var OrdProduct = OrderService.Find_OrderdProductbyOrderid(order.Id);
+			if (OrdProduct != null)
+			{
+
+				var Product = ProductService.GetProductbyId(OrdProduct.ProductId);
+				if (order != null && Product != null || Product != null)
+				{
+
+
+					var Brand = BrandService.GetBrandById(Product.BrandId);
+
+
+				}
+			}
+			<tr>
+				@{
+					if (@order.OrderName != null)
+					{
+						<td scope="col">@order.OrderName</td>
+					}
+					else
+					{
+						<td scope="col">there is a problem</td>
+					}
+
+					IdentityUser test = AdminService.GetUserById(order.UserId);
+
+				}
+
+				<td scope="col">@test.UserName</td>
+				<td scope="col">@order.BuyerName</td>
+				<td scope="col">@order.BuyerPhoneNumber</td>
+				<td scope="col">@order.BuyerAddress</td>
+
+				@{
+
+					if (OrdProduct != null)
+					{
+						List<OrderdProducts> AllProductsOfUser = OrderService.AllUserProducts(order.Id);
+						int Lenght = AllProductsOfUser.Count();
+						<td>
+
+							@for (int i = 0; i < Lenght; i++)
+							{
+
+								var gh = ProductService.GetProductbyId(AllProductsOfUser[i].ProductId);
+								var brandtemp = BrandService.GetBrandById(gh.BrandId);
+								var cattemp = CategoryService.CategoryById(gh.CategoryId);
+								<form asp-controller="Orders" asp-action="UpdateQuan" method="post" enctype="multipart/form-data">
+									@gh.ProductName  @brandtemp.BrandName  @cattemp.Name <span>Quantity:</span> <input type="number" name="newQuantity" min="1" value=@AllProductsOfUser[i].OrderedQuantity />
+									<a asp-controller="Orders" asp-action="RemoveProduct" asp-route-id="@order.Id" asp-route-Prid="@AllProductsOfUser[i].Id" asp-route-Qwan="@AllProductsOfUser[i].OrderedQuantity" class="btn btn-info float-right ml-3">Delete</a>
+									<input type="hidden" name="Productid" value=@AllProductsOfUser[i].Id />
+									<input type="hidden" name="ordid" value=@AllProductsOfUser[i].OrderId />
+									<button class="btn btn-success" type="submit">Update</button>
+								</form>
+							}
+						</td>
+					}
+					else
+					{
+						<td scope="col">There are no products in this order</td>
+					}
+
+				}
+				<td scope="col">@order.OrderDate</td>
+
+				<td scope="col">@order.OrderPrice</td>
+				@{
+
+				}
+
+				<td scope="col">@(order.IsPaid ? "Yes" : "No")</td>
+				<td scope="col">@(order.IsConfirmed ? "Yes" : "No")</td>
+				<td scope="col">
+					<a asp-controller="Orders" asp-action="OrderOrder" asp-route-id="@order.Id" class="btn btn-info float-right ">Order all</a>
+					<a asp-controller="Orders" asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger float-right ml-3">Delete</a>
+					
+
+				</td>
+			</tr>
+
+
+		}
+	</tbody>
+</table>
+@if (Model.Any() == false)
+{
+	<h2 class="text-center">There are no active  orders !</h2>
+}

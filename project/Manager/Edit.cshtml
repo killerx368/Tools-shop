@@ -1,0 +1,12 @@
+﻿@using OnlineShop_ASP.NET.Models.Products;
+@model ProductInputViewModel
+
+@{
+    ViewData["Title"] = "Edit  Products";
+}
+
+<partial name="_ProductsPartialView" model="@Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

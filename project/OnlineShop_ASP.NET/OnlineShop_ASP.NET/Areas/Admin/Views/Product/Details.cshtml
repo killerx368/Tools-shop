@@ -1,0 +1,147 @@
+﻿@model Details_OrdersInputViewModel;
+@using OnlineShop_ASP.NET.Models.Orders;
+@inject IBrandService brandService;
+@inject ICategoryService categoryService;
+@inject IProductService productService;
+@inject IOrderService OrderService;
+@inject IAdminService AdminService;
+@using OnlineShopCourseWork.Models;
+@using OnlineShop_ASP.NET.Data.Models;
+@using OnlineShop_ASP.NET.Models.Products;
+@using OnlineShop_ASP.NET.Services.Brands;
+@using OnlineShop_ASP.NET.Services.Categories;
+@using OnlineShop_ASP.NET.Services.Products;
+@using OnlineShop_ASP.NET.Services.Order;
+@using OnlineShop_ASP.NET.Services.Admin;
+<link rel="stylesheet" href="~/css/dropdown.css" />
+<link rel="stylesheet" href="~/css/Back.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+
+
+    @{
+        ViewData["Title"] = "Product Details";
+    }
+    <h2 class="text-center">@Model.DetailsInput.ProductName @Model.DetailsInput.Brand.BrandName @Model.DetailsInput.Brand.ModelName @Model.DetailsInput.Category.Name</h2>
+    <hr />
+
+
+    <div class="container" style="display:inline">
+        <div class="row">
+            <div class="col-4">
+                <img src="@Html.Raw(Model.DetailsInput.ImageURL)" style="width: 12rem">
+            </div>
+            <div class="card1 col-8 border-0">
+                <p>
+                    <b> Price: </b>
+                    @String.Format("{0:f2}", Model.DetailsInput.Price) BGN
+                <p><b>Category:</b> @Model.DetailsInput.Category.Name</p>
+                <p><b>Quantity:</b> @Model.DetailsInput.Quantity</p>
+                
+                <div class="buttons">
+                    <div class="dropdown5">
+                        <button class="dropbtn">Add to cart </button>
+                        <div class="dropdown-content-3">
+                                
+                                <form asp-controller="Orders" asp-action="AddTheProductToTheOrder" method="post" enctype="multipart/form-data">
+                                    <h2>Add a product to an order </h2>
+                                    <div>
+                                        <label for="WantedQwantity">Desired quantity</label>
+
+                                        <input type="number" min="0" id="WantedQwantity" name="WantedQwantity" />
+                                        <input type="hidden" id="product_Id" name="product_Id" value="@Model.DetailsInput.Id" />
+                                    </div>
+
+                                    <div>
+
+                                            @{
+
+                                                var temp = AdminService.GetUserByName(this.User.Identity.Name);
+                                            if (temp != null)
+                                            {
+                                                List<Orders> list = OrderService.AllUserOrders(temp.Id);
+                                                int rotatae = list.Count();
+
+
+
+
+                                                for (int i = 0; i < rotatae; i++)
+                                                {
+
+                                                <input type="hidden" id="id_@i" name="id_@i" value="@list[i].Id" />
+                                                    @if (this.User.Identity.IsAuthenticated)
+                                                    {
+
+                                                    <button id="button_@i" type="submit" name="orderIndex" value="@i">@list[i].OrderName </button>
+
+
+                                                    }
+
+                                                }
+                                            }
+                                            }
+
+                                    </div>
+
+
+                                </form>
+                                
+                        
+                    </div>
+                </div>
+                
+              <div class="dropdown-2">
+                        <button class="dropbtn">Add a Cart </button>
+                        <div class="dropdown-content-2">
+                                
+
+                                <form asp-controller="Orders" asp-action="AddOrder" method="post" enctype="multipart/form-data">
+                                    <h2>Add an order </h2>
+                                    <div>
+                                        <label asp-for="OrdersInput.OrderName">Order name </label>
+                                        <input asp-for="OrdersInput.OrderName" class="form-control" placeholder="Борил Танов...." />
+                                        <span asp-validation-for="OrdersInput.OrderName" class="small text-danger"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="OrdersInput.BuyerName"> Name</label>
+                                        <input asp-for="OrdersInput.BuyerName" class="form-control" placeholder="Борил Танов...." />
+                                        <span asp-validation-for="OrdersInput.BuyerName" class="small text-danger"></span>
+                                    </div>
+
+                                    <div>
+                                        <label asp-for="OrdersInput.BuyerPhoneNumber">Phone number</label>
+                                        <input type="number" min="0" maxlength="10" asp-for="OrdersInput.BuyerPhoneNumber" class="form-control" placeholder="088 901...." />
+                                        <span asp-validation-for="OrdersInput.BuyerPhoneNumber" class="small text-danger"></span>
+                                    </div>
+
+                                    <div>
+                                        <label asp-for="OrdersInput.BuyerAddress">Address </label>
+                                        <input asp-for="OrdersInput.BuyerAddress" class="form-control" placeholder="град София, блок 73...." />
+                                        <span asp-validation-for="OrdersInput.BuyerAddress" class="small text-danger"></span>
+                                    </div>
+
+                                    <div>
+                                        <label asp-for="OrdersInput.BuyerEmail">Email</label>
+                                        <input type="email" asp-for="OrdersInput.BuyerEmail" class="form-control" placeholder="boril_tanow@abv.bg...." />
+                                        <span asp-validation-for="OrdersInput.BuyerEmail" class="small text-danger"></span>
+                                    </div>
+                                    <input type="hidden" name="Id" value="@Model.DetailsInput.Id" />
+                                    @if (this.User.Identity.IsAuthenticated)
+                                    {
+                                        <button type="submit" class="btn btn-info">Submit</button>
+
+                                    }
+
+
+
+                                </form>
+                                
+
+                        
+                    </div>
+                </div>
+                    <p><b>Description:</b> @Model.DetailsInput.Description</p>
+                </div>
+                
+</body>

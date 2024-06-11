@@ -1,0 +1,16 @@
+﻿@inject IBrandService brandService;
+@inject ICategoryService categoryService;
+@using OnlineShopCourseWork.Models;
+@using OnlineShop_ASP.NET.Data.Models;
+@using OnlineShop_ASP.NET.Models.Products;
+@using OnlineShop_ASP.NET.Services.BrandService;
+@using OnlineShop_ASP.NET.Services.Brands;
+@using OnlineShop_ASP.NET.Services.Categories;
+<link rel="stylesheet" href="~/css/dropdown.css" />
+@model List<ProductInputViewModel>
+
+<partial name="_AllProductPartial" model="@Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

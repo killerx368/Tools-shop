@@ -1,0 +1,142 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using Mysqlx.Crud;
+using MySqlX.XDevAPI.Common;
+using OnlineShop_ASP.NET.Extensions;
+using OnlineShop_ASP.NET.Models;
+using OnlineShop_ASP.NET.Models.Order;
+using OnlineShop_ASP.NET.Models.Orders;
+using OnlineShop_ASP.NET.Models.Products;
+using OnlineShop_ASP.NET.Services.Admin;
+using OnlineShop_ASP.NET.Services.Order;
+using OnlineShopCourseWork.Models;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System.Security.Cryptography;
+
+
+namespace OnlineShop_ASP.NET.Controllers
+{
+    public class OrdersController : Controller
+    {
+        private readonly IOrderService OrderService;
+        private readonly IAdminService AdminService;
+        public OrdersController(IOrderService OrderService, IAdminService AdminService)
+        {
+            this.OrderService = OrderService;
+            this.AdminService = AdminService;
+
+        }
+        public IActionResult RemoveProduct(int id, int Prid, int Qwan)
+        {
+
+
+            var work = OrderService.RemoveProductsFromAnOrder(id, Prid, Qwan);
+            string fix1 = OrderService.Filler1(id);
+			return RedirectToAction("Get", new { id = fix1 });
+        }
+
+        [HttpGet]
+        public IActionResult Get(string id)
+        {
+
+            List<Orders> result = this.OrderService.AllUserOrders(id);
+
+            return View(result);
+        }
+
+
+
+
+
+        [HttpGet]
+        public IActionResult Delete(int Id)
+        {
+			string fix1 = OrderService.Filler1(Id);
+			OrderService.RemoveOrder(Id);
+			
+
+			return RedirectToAction("Get", new { id = fix1 });
+		}
+        [HttpPost]
+        public IActionResult AddTheProductToTheOrder(int orderIndex, int product_Id, int WantedQwantity)
+        {
+            string idFieldName = "id_" + orderIndex;
+
+            
+            int order_id = int.Parse(Request.Form[idFieldName]);
+            OrderService.AddProductsToAnOrder(order_id, product_Id, WantedQwantity);
+            return RedirectToAction("Details", "Product", new { id = product_Id });
+
+
+
+
+
+        }
+        [HttpPost]
+        public IActionResult UpdateQuan(int Productid, int newQuantity, int ordid)
+        {
+			string fix1 = OrderService.Filler1(ordid);
+			OrderService.UpdateOrderQuantity(Productid, newQuantity);
+
+		
+			return RedirectToAction("Get", new { id = fix1 });
+
+
+        }
+
+        [HttpPost]
+        public IActionResult AddOrder(int Id, OrdersInputViewModel OrdersInput)
+        {
+            OrdersInputViewModel model = new OrdersInputViewModel();
+
+            if (Id <= 0)
+            {
+                return RedirectToAction("CustomError");
+            }
+
+
+            model.OrderdProductId = Id;
+            model.UserId = this.User.GetId();
+            model.BuyerName = OrdersInput.BuyerName;
+            model.BuyerPhoneNumber = OrdersInput.BuyerPhoneNumber;
+            model.OrderName = OrdersInput.OrderName;
+            model.OrderPrice = OrdersInput.OrderPrice;
+            model.BuyerAddress = OrdersInput.BuyerAddress;
+            model.BuyerEmail = OrdersInput.BuyerEmail;
+
+
+
+            if (ModelState.IsValid == false)
+            {
+                return View("CustomError");
+            }
+            var result = OrderService.AddOrder(model);
+
+            if (result == -1)
+            {
+                return View("CustomError");
+			}
+            
+			return RedirectToAction("Details", "Product", new { id = Id });
+
+
+
+        }
+
+
+		public IActionResult OrderOrder(int Id)
+		{
+			string fix1 = OrderService.Filler1(Id);
+			this.OrderService.Orderpay(Id);
+
+			return RedirectToAction("Get", new { id = fix1 });
+		}
+
+
+		
+
+
+	}
+}

@@ -1,0 +1,164 @@
+﻿/* Dropdown Button */
+.dropbtn {
+    background-color: #f4623a;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    padding: 10px 24px;
+    Mx 
+}
+
+.navbar-nav a {
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+    max-width: 8%;
+}
+.dropdown5 {
+    position: relative;
+    display: inline-block;
+}
+.navbar {
+    background-color: rgba(13,202,240) !important;
+}
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+.dropdown-content-3 {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10;
+    padding: 10px;
+    
+}
+body {
+    background-image: url("https://static.vecteezy.com/system/resources/thumbnails/015/643/193/small/abstract-modern-white-and-grey-gradient-geometric-pattern-background-vector.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.card {
+    background-color: rgba(65, 203, 241, 0);
+    border: none;    
+    
+    
+}
+@media only screen and (max-width: 700px) {
+    .navbar{
+        width: 250%
+    }
+}
+
+
+
+.display-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: fit-content;
+    max-height: fit-content;
+}
+
+.card-border {
+    width: 78%;
+    display: flex;
+}
+.dropdown-content-2 {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10;
+    padding: 10px;
+    width: 300%;
+    height: 800%;
+    overflow:scroll
+}
+.card1 {
+    padding-left: 20%;
+    
+}
+.dropdown-content a {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+}
+
+ .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown5:hover .dropdown-content-3 {
+    display: block;
+}
+
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+    
+}
+
+
+
+
+.dropdown-2 {
+    position: relative;
+    display: inline-block;
+    
+    
+}
+
+
+.dropdown-content-2 {
+    padding: 10px;
+    
+}
+
+
+    .dropdown-content-2 a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+        .dropdown-content-2 a:hover {
+            background-color: #ddd;
+        }
+
+
+.dropdown-2:hover .dropdown-content-2 {
+    display: block;
+}
+
+
+.dropdown-2:hover .dropbtn {
+    background-color: #3e8e41;
+}
+.buttons {
+    display:inline-block
+}
+
+.card-border:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+button{
+    border-radius:5%;
+}

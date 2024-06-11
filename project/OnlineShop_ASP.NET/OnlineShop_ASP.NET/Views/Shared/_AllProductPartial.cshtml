@@ -1,0 +1,96 @@
+﻿@inject IBrandService brandService;
+@inject ICategoryService categoryService;
+@using OnlineShopCourseWork.Models;
+@using OnlineShop_ASP.NET.Models.Products;
+@using OnlineShop_ASP.NET.Services.Brands;
+@using OnlineShop_ASP.NET.Services.Categories;
+<link rel="stylesheet" href="~/css/dropdown.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+@model List<ProductInputViewModel>
+<head>
+<link href="css/Navbar.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/Back.css" />
+</head>
+<form asp-controller="Product" asp-action="Search" method="post">
+    <div class="topnav">
+        <input type="text" name="SearchTerm" placeholder="Search..">
+        <input type="submit" value="Search">
+    </div>
+</form>
+<div class="row">
+    @{
+        var DropBrand = brandService.GetBrandNames();
+        var DropCat = categoryService.GetCatNames();
+    }
+    <div class="row">
+        <div class="dropdown">
+            <div class="dropdown">
+                <button class="dropbtn">Brand</button>
+                <div class="dropdown-content">
+                    @{
+                        foreach (var item in DropBrand)
+                        {
+                            <a asp-controller="Product" asp-action="AllProducts"  asp-route-id="@item.Id.ToString()" asp-route-brandname="@item.BrandName" class="btn btn-info">"@item.BrandName"</a>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="dropdown">
+            <div class="dropdown">
+                <button class="dropbtn">Category</button>
+                <div class="dropdown-content">
+                    @{
+                        foreach (var item in DropCat)
+                        {
+                            <a asp-controller="Product" asp-action="AllProducts" asp-route-id="@item.Id.ToString() " class="btn btn-info">"@item.Name"</a>
+
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+       </div>
+    
+    <div class="display-cards">
+    @foreach (var products in Model)
+    {
+        
+        var brand = brandService.GetBrandById((int)products.BrandId);
+        var cat = categoryService.CategoryById((int)products.CategoryId);
+
+        <div class="card-border">
+        <div class="col-5">
+            <div class="card">
+                <img src="@Html.Raw(products.ImageURL)" style="width: 10rem">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">@products.ProductName @brand.BrandName @brand.ModelName</h5>
+                </div>
+            </div>
+        </div>
+        <div class="card col-5 ml-5 border-10">
+            <p style="font-size:15px;"><u>@products.ProductName</u></p>
+            <p>Brand: <b>@brand.BrandName @brand.ModelName</b></p>
+            <p>Category: <b>@cat.Name</b></p>
+            <p>Quantity: <b>@products.Quantity</b></p>
+            <p>Price: <b>@products.Price</b></p>
+
+            <a  asp-controller="Product" asp-action="Details" asp-route-id="@products.Id" class="btn btn-info">Details</a>
+            
+
+
+
+        </div>
+        </div>
+    }
+    </div>
+</div>
+
+@if (Model.Count() == 0)
+{
+    <h1 class="text-center">There are no products!</h1>
+}

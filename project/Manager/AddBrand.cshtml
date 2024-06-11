@@ -1,0 +1,20 @@
+﻿@using OnlineShop_ASP.NET.Models.Brands;
+@model BrandFormInputModel
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label asp-for="ModelName">Име на марка</label>
+        <input asp-for="ModelName" class="form-control" placeholder="Напиши тук" />
+        <span asp-validation-for="ModelName" class="small text-danger"></span>
+    </div>
+
+
+    <div>
+        <label asp-for="BrandName">Име на фирма</label>
+        <input asp-for="BrandName" class="form-control" placeholder="Напиши тук" />
+        <span asp-validation-for="BrandName" class="small text-danger"></span>
+    </div>
+  
+    <button style="margin-top: 20px;">Save</button>
+
+</form>

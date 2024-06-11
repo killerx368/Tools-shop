@@ -1,0 +1,48 @@
+﻿@using OnlineShopCourseWork.Models;
+@using OnlineShop_ASP.NET.Models.Order;
+@using OnlineShop_ASP.NET.Models.User;
+@using OnlineShop_ASP.NET.Services.Brands;
+@using OnlineShop_ASP.NET.Services.Products;
+@using OnlineShop_ASP.NET.Services.Admin;
+@inject IProductService ProductService;
+@inject IAdminService AdminService;
+@inject IBrandService BrandService;
+@model List<UserInputViewModel>
+
+@{
+	ViewData["Title"] = "All Users";
+
+}
+
+<h1>Booking Offerts</h1>
+
+<table class="table table-striped">
+	<thead class="thead-dark">
+		<tr>
+			<th scope="col">User Id</th>
+			<th scope="col">User Name</th>
+			<th scope="col">User Email</th>
+			<th scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var user in Model)
+		{
+			<tr>
+				<td scope="col">@user.UserId</td>
+				<td scope="col">@user.UserName</td>
+				<td scope="col">@user.UserEmail</td>
+			
+				<td scope="col">
+					<a asp-area="Admin" asp-controller="Admin" asp-action="Delete" asp-route-id="@user.UserId" class="btn btn-danger float-right ml-3">Delete</a>
+					
+				</td>
+			</tr>
+
+		}
+	</tbody>
+</table>
+@if (Model.Any() == false)
+{
+	<h2 class="text-center">There are no users !</h2>
+}
